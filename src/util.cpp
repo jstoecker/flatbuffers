@@ -245,7 +245,11 @@ bool ReadEnvironmentVariable(const char *var_name, std::string *_value) {
 #ifdef _MSC_VER
   __pragma(warning(disable : 4996));  // _CRT_SECURE_NO_WARNINGS
 #endif
+#ifdef WINAPI_FAMILY_PARITION(WINAPI_PARTITION_GAMES)
+  auto env_str = ::getenv(var_name);
+#else
   auto env_str = std::getenv(var_name);
+#endif
   if (!env_str) return false;
   if (_value) *_value = std::string(env_str);
   return true;
